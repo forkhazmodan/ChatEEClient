@@ -16,6 +16,7 @@ public class Message {
     private String from;
     private String to;
     private String text;
+    private String room;
 
     public Message(String from, String text) {
         this.from = from;
@@ -59,6 +60,10 @@ public class Message {
             os.close();
         }
     }
+
+    public String getRoom() { return room; }
+
+    public void setRoom(String room) { this.room = room; }
 
     public Integer getId() {
         return id;

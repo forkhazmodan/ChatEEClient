@@ -122,6 +122,43 @@ public class Api {
     }
 
     public static boolean message(String text) throws IOException, ServerErrorException {
+        return Api.message(text, null, null);
+
+//        User user = User.getInstance();
+//
+//        if(user == null) {
+//            return false;
+//        }
+//
+//        Message message = new Message(user.getLogin(), text);
+//        String json = message.toJSON();
+//
+//        HttpURLConnection conn = (HttpURLConnection) new URL(Api.domain + "/messages").openConnection();
+//        conn.setRequestMethod("POST");
+//        conn.setDoOutput(true);
+//
+//        OutputStream os = conn.getOutputStream();
+//        os.write(json.getBytes(StandardCharsets.UTF_8));
+//        os.close();
+//
+//        int code = conn.getResponseCode();
+//
+//        if (200 <= code && code <= 299) {
+//            return true;
+//        } else {
+//            InputStream is = conn.getErrorStream();
+//            byte[] buf = Http.responseBodyToArray(is);
+//            String strBuf = new String(buf, StandardCharsets.UTF_8);
+//            ServerErrorException ex = ServerErrorException.fromJSON(strBuf);
+//            throw ex;
+//        }
+    }
+
+    public static boolean message(String text, String to) throws IOException, ServerErrorException {
+        return Api.message(text, to, null);
+    }
+
+    public static boolean message(String text, String to, String room) throws IOException, ServerErrorException {
         User user = User.getInstance();
 
         if(user == null) {
@@ -129,6 +166,9 @@ public class Api {
         }
 
         Message message = new Message(user.getLogin(), text);
+        message.setTo(to);
+        message.setRoom(room);
+
         String json = message.toJSON();
 
         HttpURLConnection conn = (HttpURLConnection) new URL(Api.domain + "/messages").openConnection();

@@ -36,6 +36,10 @@ public class CommandFacade {
 
                 new MessageCommand(command).run();
 
+            } else if(Pattern.matches(MsgToCommand.regex, command)) {
+
+                new MsgToCommand(command).run();
+
             } else {
                 System.err.println("Command not found");
             }

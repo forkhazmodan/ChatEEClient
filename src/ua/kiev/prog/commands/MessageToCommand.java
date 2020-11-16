@@ -38,7 +38,7 @@ public class MessageToCommand extends Command {
         System.out.println(text);
         System.out.println(to);
 
-//        Api.message(text, to);
+        Api.message(text, to);
     }
 
     @Override

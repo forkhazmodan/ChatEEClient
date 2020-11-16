@@ -8,9 +8,10 @@ import java.io.IOException;
 
 public class RegisterCommand extends Command {
 
-    static String regex = "^\\/register$";
+    private String regex = "^\\/register$";
 
-    public void run()  throws IOException, ServerErrorException {
+    @Override
+    public void run(String ...args)  throws IOException, ServerErrorException {
         System.out.println("Enter your login: ");
         String login = SingletonScanner.scanner().nextLine();
         System.out.println("Enter your password: ");
@@ -18,5 +19,10 @@ public class RegisterCommand extends Command {
 
         Api.register(login, password);
         System.out.println("You was successfully registered");
+    }
+
+    @Override
+    public String getRegex() {
+        return regex;
     }
 }

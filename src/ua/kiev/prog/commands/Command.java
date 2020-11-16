@@ -7,8 +7,9 @@ import java.io.IOException;
 
 abstract public class Command {
 
-    Command(){}
-    Command(String command){}
+    public String[] parse(String command) { return null; };
 
-    abstract void run() throws IOException, ServerErrorException, CommandErrorException;
+    abstract public void run(String... args) throws IOException, ServerErrorException, CommandErrorException;
+
+    abstract public String getRegex();
 }

@@ -35,13 +35,18 @@ public class Message {
 
     @Override
     public String toString() {
-        return new StringBuilder()
-                .append("[").append(date)
-                .append(", Id: ").append(id)
-                .append(", From: ").append(from)
-                .append(", To: ").append(to)
-                .append("] ").append(text)
-                .toString();
+
+        StringBuilder sb = new StringBuilder();
+
+        sb = sb.append("[");
+
+        if(date != null) sb = sb.append(date);
+        if(room != null) sb = sb.append(", Room: ").append(room);
+        if(from != null) sb = sb.append(", From: ").append(from);
+        if(to != null) sb = sb.append(", To: ").append(to);
+        sb = sb.append("] ").append(text);
+
+        return sb.toString();
     }
 
     public int send(String url) throws IOException {

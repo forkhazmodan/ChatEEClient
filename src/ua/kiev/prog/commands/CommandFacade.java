@@ -4,7 +4,8 @@ import ua.kiev.prog.exceptions.CommandErrorException;
 import ua.kiev.prog.exceptions.ServerErrorException;
 
 import java.io.IOException;
-import java.sql.SQLOutput;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class CommandFacade {
@@ -12,37 +13,30 @@ public class CommandFacade {
     static String regex = "^\\/.*";
 
     public static void run(String command) {
-        //TODO find commands by reflection api
 
         if(!Pattern.matches(CommandFacade.regex, command)) {
             return;
         }
 
+        List<Command> registeredCommands = new ArrayList<>();
+
+        registeredCommands.add(new LoginCommand());
+        registeredCommands.add(new MessageCommand());
+        registeredCommands.add(new MessageToCommand());
+        registeredCommands.add(new MessageToRoomCommand());
+        registeredCommands.add(new RegisterCommand());
+        registeredCommands.add(new RoomCommand());
+
         try {
 
-            if (Pattern.matches(RegisterCommand.regex, command)) {
-
-                new RegisterCommand().run();
-
-            } else if(Pattern.matches(LoginCommand.regex, command)) {
-
-                new LoginCommand().run();
-
-            } else if(Pattern.matches(RoomCommand.regex, command)) {
-
-                new RoomCommand(command).run();
-
-            } else if(Pattern.matches(MessageCommand.regex, command)) {
-
-                new MessageCommand(command).run();
-
-            } else if(Pattern.matches(MsgToCommand.regex, command)) {
-
-                new MsgToCommand(command).run();
-
-            } else {
-                System.err.println("Command not found");
+            for (Command commandObject:registeredCommands) {
+                if(Pattern.matches(commandObject.getRegex(), command)) {
+                    commandObject.run(commandObject.parse(command));
+                    return;
+                }
             }
+
+            System.err.println("Command not found");
 
         } catch (IOException e) {
             e.printStackTrace();

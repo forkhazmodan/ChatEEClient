@@ -4,15 +4,14 @@ import ua.kiev.prog.exceptions.CommandErrorException;
 import ua.kiev.prog.exceptions.ServerErrorException;
 import ua.kiev.prog.models.User;
 import ua.kiev.prog.utils.Api;
-import ua.kiev.prog.utils.SingletonScanner;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MessageCommand extends Command {
+public class MessageToRoomCommand extends Command {
 
-    private String regex = "^\\/msg (.*)$";
+    private String regex = "^\\/msg:room (.*)$";
 
     @Override
     public String[] parse(String command) {
@@ -30,13 +29,9 @@ public class MessageCommand extends Command {
     }
 
     @Override
-    public void run(String ...args)  throws IOException, ServerErrorException, CommandErrorException {
+    public void run(String ...args)  throws IOException, ServerErrorException {
 
         String text = args != null && args.length > 0 ? args[0] : null;
-
-        if(text == null) {
-            throw new CommandErrorException("Message required");
-        }
 
         User user = User.getInstance();
 
@@ -44,12 +39,16 @@ public class MessageCommand extends Command {
             throw new CommandErrorException("You should login first");
         }
 
-        Api.message(text);
+        if(user.getRoom() == null) {
+            throw new CommandErrorException("You not in room now");
+        }
+
+        Api.message(text, null, user.getRoom());
     }
+
 
     @Override
     public String getRegex() {
         return regex;
     }
-
 }

@@ -6,12 +6,12 @@ Already worked
 /login
 /room:{roomName}
 /msg {text}
+/msg:to {login} {text}
+/msg:room {text}
 ```
 
 Todo
 ```
-/msg:to {login} {text}
-/msg:room {text}
 /online
 /status:{login}
 ```
